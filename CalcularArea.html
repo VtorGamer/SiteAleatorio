@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculos Matematicos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        button {
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #resultado {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculos Matematicos</h1>
+        <div class="form-group">
+            <label for="forma">Escolha qual conta você quer fazer:</label>
+            <select id="forma">
+                <option value="hipotenusa">Hipotenusa</option>
+                <option value="imc">IMC</option>
+                <option value="probabilidade">Probabilidade</option>
+            </select>
+        </div>
+        <div class="form-group" id="input1-group">
+            <label for="input1">Valor Inicial:</label>
+            <input type="number" id="input1" />
+        </div>
+        <div class="form-group" id="input2-group">
+            <label for="input2">Valor 2:</label>
+            <input type="number" id="input2" />
+        </div>
+        <button onclick="calcular()">Calcular</button>
+        <h2 id="resultado"></h2>
+    </div>
+    <script>
+        document.getElementById('forma').addEventListener('change', function () {
+            const forma = this.value;
+            const input1Label = document.querySelector('label[for="input1"]');
+            const input2Label = document.querySelector('label[for="input2"]');
+            const input2Group = document.getElementById('input2-group');
+
+            if (forma === 'hipotenusa') {
+                input1Label.textContent = 'Qual o valor do cateto adjacente:';
+                input2Label.textContent = 'Qual o valor do cateto oposto:';
+            } else if (forma === 'imc') {
+                input1Label.textContent = 'Qual o seu peso em kg:';
+                input2Label.textContent = 'Qual a sua altura (ex: 1.7):';
+            } else if (forma === 'probabilidade') {
+                input1Label.textContent = 'Quantidade do número que deseja:';
+                input2Label.textContent = 'Quantas vezes pode acontecer no total:';
+            }
+        });
+
+        function calcular() {
+            const forma = document.getElementById('forma').value;
+            const input1 = parseFloat(document.getElementById('input1').value);
+            const input2 = parseFloat(document.getElementById('input2').value);
+            let resultado = '';
+
+            if (isNaN(input1) || (forma === 'hipotenusa' && isNaN(input2))) {
+                resultado = 'Por favor, insira valores válidos.';
+            } else {
+                if (forma === 'hipotenusa') {
+                    resultado = `A hipotenusa é: ${(Math.sqrt(input1 * input1 + input2 * input2)).toFixed(2)}`;
+                } else if (forma === 'imc') {
+                    resultado = `Seu IMC é: ${(input1 / (input2 * input2)).toFixed(2)}`;
+                } else if (forma === 'probabilidade') {
+                    resultado = `A probabilidade é: ${(input1 / input2).toFixed(2)}`;
+                }
+            }
+            document.getElementById('resultado').textContent = resultado;
+        }
+    </script>
+</body>
+</html>
